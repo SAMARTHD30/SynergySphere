@@ -1,75 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
-interface User {
-	id: string;
-	firstName: string;
-	lastName: string;
-	email: string;
-	createdAt: string;
-}
+import { Plus, FolderOpen, CheckSquare, Clock } from "lucide-react";
+import DashboardLayout from "@/components/dashboard-layout";
+import { useProjects } from "@/hooks/use-projects";
+import { useMyTasks } from "@/hooks/use-tasks";
+import Link from "next/link";
 
 export default function DashboardPage() {
-	const [user, setUser] = useState<User | null>(null);
-	const [isLoading, setIsLoading] = useState(true);
-	const router = useRouter();
+	const { projects, isLoading: projectsLoading } = useProjects();
+	const { tasks: myTasks, isLoading: tasksLoading } = useMyTasks();
 
-	useEffect(() => {
-		// Check if user is authenticated
-		const isAuthenticated = localStorage.getItem("isAuthenticated");
-		const userData = localStorage.getItem("user");
-
-		if (!isAuthenticated || !userData) {
-			router.push("/login");
-			return;
-		}
-
-		try {
-			const parsedUser = JSON.parse(userData);
-			setUser(parsedUser);
-		} catch (error) {
-			console.error("Error parsing user data:", error);
-			router.push("/login");
-		} finally {
-			setIsLoading(false);
-		}
-	}, [router]);
-
-	const handleLogout = () => {
-		localStorage.removeItem("user");
-		localStorage.removeItem("isAuthenticated");
-		router.push("/");
-	};
-
-	if (isLoading) {
-		return (
-			<div className="container mx-auto max-w-4xl px-4 py-8">
-				<div className="text-center">Loading...</div>
-			</div>
-		);
-	}
-
-	if (!user) {
-		return null;
-	}
+	const activeProjects = projects.filter(p => p.status === 'active').length;
+	const completedTasks = myTasks.filter(t => t.status === 'completed').length;
+	const pendingTasks = myTasks.filter(t => t.status !== 'completed').length;
 
 	return (
-		<div className="container mx-auto max-w-4xl px-4 py-8">
-			<div className="flex justify-between items-center mb-8">
-				<div>
-					<h1 className="text-3xl font-bold">Welcome back, {user.firstName}!</h1>
+		<DashboardLayout>
+			<div className="container mx-auto max-w-6xl px-4 py-8">
+				<div className="mb-8">
+					<h1 className="text-3xl font-bold">Welcome back!</h1>
 					<p className="text-muted-foreground">
 						Here's what's happening with your projects today.
 					</p>
 				</div>
-				<Button onClick={handleLogout} variant="outline">
-					Logout
-				</Button>
-			</div>
 
 			<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 				<Card>
@@ -80,8 +35,14 @@ export default function DashboardPage() {
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
-						<p className="text-2xl font-bold">0</p>
+						<p className="text-2xl font-bold">{projectsLoading ? "..." : activeProjects}</p>
 						<p className="text-sm text-muted-foreground">Active projects</p>
+						<Button asChild className="mt-4" size="sm">
+							<Link href="/projects">
+								<FolderOpen className="mr-2 h-4 w-4" />
+								View Projects
+							</Link>
+						</Button>
 					</CardContent>
 				</Card>
 
@@ -93,22 +54,27 @@ export default function DashboardPage() {
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
-						<p className="text-2xl font-bold">0</p>
+						<p className="text-2xl font-bold">{tasksLoading ? "..." : pendingTasks}</p>
 						<p className="text-sm text-muted-foreground">Pending tasks</p>
+						<Button asChild className="mt-4" size="sm">
+							<Link href="/tasks">
+								<CheckSquare className="mr-2 h-4 w-4" />
+								View Tasks
+							</Link>
+						</Button>
 					</CardContent>
 				</Card>
 
 				<Card>
 					<CardHeader>
-						<CardTitle>Recent Activity</CardTitle>
+						<CardTitle>Completed Tasks</CardTitle>
 						<CardDescription>
-							Your latest updates
+							Tasks completed this week
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
-						<p className="text-sm text-muted-foreground">
-							No recent activity
-						</p>
+						<p className="text-2xl font-bold">{tasksLoading ? "..." : completedTasks}</p>
+						<p className="text-sm text-muted-foreground">Completed tasks</p>
 					</CardContent>
 				</Card>
 			</div>
@@ -160,6 +126,7 @@ export default function DashboardPage() {
 					</CardContent>
 				</Card>
 			</div>
-		</div>
+			</div>
+		</DashboardLayout>
 	);
 }

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../index.css";
 import Providers from "@/components/providers";
-import Header from "@/components/header";
+import AuthSessionProvider from "@/components/session-provider";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -16,7 +16,12 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
 	title: "SynergySphere",
-	description: "SynergySphere",
+	description: "SynergySphere - Project Management Platform",
+	icons: {
+		icon: '/favicon.ico',
+		shortcut: '/favicon/favicon-96x96.png',
+		apple: '/favicon/apple-touch-icon.png',
+	},
 };
 
 export default function RootLayout({
@@ -29,9 +34,11 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<Providers>
-					{children}
-				</Providers>
+				<AuthSessionProvider>
+					<Providers>
+						{children}
+					</Providers>
+				</AuthSessionProvider>
 			</body>
 		</html>
 	);

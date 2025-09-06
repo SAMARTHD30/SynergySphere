@@ -2,3 +2,7 @@ node_modules
 .turbo
 .alchemy
 .env
+
+# Kibo UI theme switcher component files
+**/theme-switcher/**
+**/components/theme-switcher/**

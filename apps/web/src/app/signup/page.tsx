@@ -66,23 +66,35 @@ export default function SignUpPage() {
 		return Object.keys(newErrors).length === 0;
 	};
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (validateForm()) {
-			// Mock authentication - store in localStorage
-			const userData = {
-				id: Date.now().toString(),
-				firstName: formData.firstName,
-				lastName: formData.lastName,
-				email: formData.email,
-				createdAt: new Date().toISOString(),
-			};
+			try {
+				const response = await fetch("/api/auth/signup", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						firstName: formData.firstName,
+						lastName: formData.lastName,
+						email: formData.email,
+						password: formData.password,
+					}),
+				});
 
-			localStorage.setItem("user", JSON.stringify(userData));
-			localStorage.setItem("isAuthenticated", "true");
+				const data = await response.json();
 
-			// Redirect to dashboard (will be created later)
-			window.location.href = "/dashboard";
+				if (response.ok) {
+					// Redirect to login page after successful signup
+					window.location.href = "/login?message=Account created successfully. Please sign in.";
+				} else {
+					setErrors({ email: data.error || "An error occurred during signup" });
+				}
+			} catch (error) {
+				console.error("Signup error:", error);
+				setErrors({ email: "An error occurred during signup" });
+			}
 		}
 	};
 
