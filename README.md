@@ -1,468 +1,267 @@
-# 🚀 SynergySphere
+# SynergySphere
 
-A comprehensive project management and collaboration platform built with modern web technologies. SynergySphere enables teams to manage projects, tasks, and events with real-time notifications and seamless collaboration features.
+A modern project management platform built for teams who want to get things done efficiently. Manage projects, assign tasks, and collaborate in real-time with a clean, intuitive interface.
 
-## 📋 Table of Contents
+## What's Inside
 
-- [✨ Features](#-features)
-- [🛠️ Tech Stack](#️-tech-stack)
-- [🚀 Getting Started](#-getting-started)
-- [🗄️ Database Setup](#️-database-setup)
-- [🏗️ Project Structure](#️-project-structure)
-- [📱 Features Overview](#-features-overview)
-- [🔧 Available Scripts](#-available-scripts)
-- [🌐 API Documentation](#-api-documentation)
-- [🔔 Real-time Notifications](#-real-time-notifications)
-- [🎨 UI Components](#-ui-components)
-- [🔐 Authentication](#-authentication)
-- [📊 Database Schema](#-database-schema)
-- [🚀 Deployment](#-deployment)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
+- **Projects & Tasks** - Create projects, assign tasks, track progress
+- **Real-time Notifications** - Get notified instantly when tasks are assigned to you
+- **Calendar Integration** - See deadlines and events in one place
+- **Team Collaboration** - Work together with role-based permissions
+- **Dark/Light Mode** - Switch themes based on your preference
 
-## ✨ Features
+## Tech Stack
 
-### 🎯 Core Functionality
+**Frontend:** Next.js 15, TypeScript, TailwindCSS, shadcn/ui
+**Backend:** Hono, Drizzle ORM, PostgreSQL
+**Real-time:** WebSocket for live notifications
+**Auth:** NextAuth.js with JWT
 
-- **Project Management**: Create, edit, and manage projects with deadlines and priorities
-- **Task Management**: Assign tasks to team members with due dates and status tracking
-- **Event Calendar**: Schedule and manage events with drag-and-drop functionality
-- **Team Collaboration**: Real-time updates and notifications for all team activities
-- **User Management**: Role-based access control and user profiles
+## Quick Start
 
-### 🔔 Real-time Features
-
-- **Live Notifications**: Instant notifications when tasks are assigned or projects are updated
-- **WebSocket Integration**: Real-time updates across all connected clients
-- **Connection Status**: Visual indicators for real-time connection status
-- **Auto-reconnection**: Automatic reconnection handling for seamless experience
-
-### 🎨 User Experience
-
-- **Responsive Design**: Works perfectly on desktop, tablet, and mobile devices
-- **Dark/Light Mode**: Toggle between themes with system preference detection
-- **Modern UI**: Clean, intuitive interface built with shadcn/ui components
-- **PWA Support**: Install as a Progressive Web App for native-like experience
-
-## 🛠️ Tech Stack
-
-### Frontend
-
-- **Next.js 15** - Full-stack React framework with App Router
-- **TypeScript** - Type-safe development
-- **TailwindCSS** - Utility-first CSS framework
-- **shadcn/ui** - Reusable UI component library
-- **React Query** - Data fetching and caching
-- **NextAuth.js** - Authentication framework
-- **Framer Motion** - Smooth animations
-- **Lucide React** - Beautiful icons
-
-### Backend
-
-- **Hono** - Lightweight, fast web framework
-- **Drizzle ORM** - TypeScript-first database ORM
-- **PostgreSQL** - Robust relational database
-- **WebSocket** - Real-time communication
-- **JWT** - Secure authentication tokens
-
-### Development Tools
-
-- **Bun** - Fast JavaScript runtime and package manager
-- **Turborepo** - Optimized monorepo build system
-- **ESLint & Prettier** - Code quality and formatting
-- **TypeScript** - Static type checking
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- [Bun](https://bun.sh/) installed on your system
-- PostgreSQL database running locally or remotely
-- Node.js 18+ (if not using Bun)
-
-### Installation
-
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/yourusername/synergysphere.git
-   cd synergysphere
-   ```
-
-2. **Install dependencies**
+1. **Install dependencies**
 
    ```bash
    bun install
    ```
 
-3. **Set up environment variables**
+2. **Set up your database**
+   - Create a PostgreSQL database
+   - Copy `apps/server/.env.example` to `apps/server/.env`
+   - Add your database URL and secrets
 
-   ```bash
-   # Copy the example environment file
-   cp apps/server/.env.example apps/server/.env
-
-   # Edit the environment file with your database credentials
-   nano apps/server/.env
-   ```
-
-4. **Set up the database** (see [Database Setup](#️-database-setup) section)
-
-5. **Start the development server**
-
-   ```bash
-   bun dev
-   ```
-
-6. **Open your browser**
-   - Web Application: [http://localhost:3001](http://localhost:3001)
-   - API Server: [http://localhost:3000](http://localhost:3000)
-
-## 🗄️ Database Setup
-
-### PostgreSQL Configuration
-
-1. **Create a PostgreSQL database**
-
-   ```sql
-   CREATE DATABASE synergysphere;
-   ```
-
-2. **Update environment variables** in `apps/server/.env`:
-
-   ```env
-   DATABASE_URL="postgresql://username:password@localhost:5432/synergysphere"
-   JWT_SECRET="your-super-secret-jwt-key"
-   NEXTAUTH_SECRET="your-nextauth-secret"
-   NEXTAUTH_URL="http://localhost:3001"
-   ```
-
-3. **Apply database schema**
+3. **Run the database migrations**
 
    ```bash
    bun db:push
    ```
 
-4. **Seed the database** (optional)
+4. **Start the development server**
 
    ```bash
-   # Visit http://localhost:3001/api/seed to seed with sample data
+   bun dev
    ```
 
-### Database Schema
+5. **Open your browser**
+   - Web app: <http://localhost:3001>
+   - API: <http://localhost:3000>
 
-The application uses the following main tables:
-
-- `users` - User accounts and profiles
-- `projects` - Project information and metadata
-- `tasks` - Task assignments and tracking
-- `project_members` - Project team membership
-- `events` - Calendar events and scheduling
-
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 SynergySphere/
 ├── apps/
-│   ├── web/                    # Next.js Frontend Application
+│   ├── web/                    # Next.js frontend application
 │   │   ├── src/
-│   │   │   ├── app/            # App Router pages
-│   │   │   │   ├── dashboard/  # Dashboard pages
-│   │   │   │   ├── projects/   # Project management
-│   │   │   │   ├── tasks/      # Task management
-│   │   │   │   ├── calendar/   # Calendar views
+│   │   │   ├── app/            # App Router pages and API routes
+│   │   │   │   ├── dashboard/  # Main dashboard pages
+│   │   │   │   ├── projects/   # Project management pages
+│   │   │   │   │   ├── [id]/   # Individual project pages
+│   │   │   │   │   └── new/    # Create new project
+│   │   │   │   ├── tasks/      # Task management pages
+│   │   │   │   │   ├── [id]/   # Individual task pages
+│   │   │   │   │   └── new/    # Create new task
+│   │   │   │   ├── calendar/   # Calendar view
+│   │   │   │   ├── settings/   # User settings
+│   │   │   │   ├── login/      # Authentication pages
+│   │   │   │   ├── signup/     # User registration
 │   │   │   │   └── api/        # API routes
-│   │   │   ├── components/     # Reusable UI components
+│   │   │   │       ├── auth/   # Authentication endpoints
+│   │   │   │       ├── trpc/   # TRPC API handler
+│   │   │   │       └── upload/ # File upload endpoints
+│   │   │   ├── components/     # Reusable React components
 │   │   │   │   ├── ui/         # shadcn/ui components
-│   │   │   │   └── ...         # Custom components
-│   │   │   ├── contexts/       # React contexts
+│   │   │   │   │   ├── button.tsx
+│   │   │   │   │   ├── input.tsx
+│   │   │   │   │   ├── dialog.tsx
+│   │   │   │   │   └── ...     # Other UI components
+│   │   │   │   ├── project-form.tsx    # Project creation/edit form
+│   │   │   │   ├── task-form.tsx       # Task creation/edit form
+│   │   │   │   ├── event-calendar.tsx  # Calendar component
+│   │   │   │   ├── notification-dropdown.tsx  # Notification UI
+│   │   │   │   ├── header.tsx          # Navigation header
+│   │   │   │   └── ...                 # Other custom components
+│   │   │   ├── contexts/       # React contexts for state management
+│   │   │   │   ├── realtime-context.tsx    # Real-time updates
+│   │   │   │   ├── notification-context.tsx # Notification system
+│   │   │   │   └── websocket-context.tsx   # WebSocket connection
 │   │   │   ├── hooks/          # Custom React hooks
-│   │   │   └── lib/            # Utility functions
-│   │   └── public/             # Static assets
-│   └── server/                 # Hono Backend API
+│   │   │   │   ├── use-projects.ts     # Project data hooks
+│   │   │   │   ├── use-tasks.ts        # Task data hooks
+│   │   │   │   ├── use-events.ts       # Event data hooks
+│   │   │   │   ├── use-users.ts        # User data hooks
+│   │   │   │   └── use-websocket.ts    # WebSocket hook
+│   │   │   ├── lib/            # Utility functions and configurations
+│   │   │   │   ├── auth.ts             # Authentication config
+│   │   │   │   ├── db.ts               # Database connection
+│   │   │   │   ├── api.ts              # API client setup
+│   │   │   │   └── utils.ts            # Helper functions
+│   │   │   └── types/          # TypeScript type definitions
+│   │   │       └── next-auth.d.ts      # NextAuth type extensions
+│   │   ├── public/             # Static assets
+│   │   │   ├── favicon.ico
+│   │   │   └── uploads/        # User uploaded files
+│   │   ├── components.json     # shadcn/ui configuration
+│   │   ├── next.config.ts      # Next.js configuration
+│   │   ├── tailwind.config.ts  # TailwindCSS configuration
+│   │   └── package.json        # Frontend dependencies
+│   └── server/                 # Hono backend API
 │       ├── src/
-│       │   ├── db/             # Database configuration
+│       │   ├── db/             # Database configuration and schema
+│       │   │   ├── index.ts            # Database connection
+│       │   │   ├── schema.ts           # Drizzle schema definitions
+│       │   │   └── migrations/         # Database migrations
 │       │   ├── routers/        # API route handlers
+│       │   │   ├── index.ts            # Main router
+│       │   │   ├── projects.ts         # Project endpoints
+│       │   │   ├── tasks.ts            # Task endpoints
+│       │   │   └── events.ts           # Event endpoints
+│       │   ├── trpc.ts         # TRPC configuration
 │       │   └── websocket.ts    # WebSocket server
-│       └── drizzle.config.ts   # Drizzle ORM config
-├── package.json                # Root package.json
+│       ├── drizzle.config.ts   # Drizzle ORM configuration
+│       └── package.json        # Backend dependencies
+├── init-scripts/               # Database initialization scripts
+│   └── 01-init-db.sql
+├── package.json                # Root package.json with workspace config
 ├── turbo.json                  # Turborepo configuration
+├── bun.lock                    # Bun lockfile
+├── bunfig.toml                 # Bun configuration
 └── README.md                   # This file
 ```
 
-## 📱 Features Overview
+### Directory Breakdown
 
-### 🎯 Project Management
+**Frontend (`apps/web/`):**
 
-- **Create Projects**: Set up new projects with descriptions, deadlines, and priorities
-- **Project Dashboard**: Visual overview of all projects with status indicators
-- **Team Management**: Add/remove team members with role-based permissions
-- **Project Analytics**: Track progress and completion metrics
+- `app/` - Next.js 15 App Router with all pages and API routes
+- `components/` - Reusable UI components (shadcn/ui + custom)
+- `contexts/` - React contexts for global state management
+- `hooks/` - Custom hooks for data fetching and state
+- `lib/` - Utility functions, configurations, and helpers
 
-### ✅ Task Management
+**Backend (`apps/server/`):**
 
-- **Task Creation**: Create tasks with detailed descriptions and assignments
-- **Assignment System**: Assign tasks to specific team members
-- **Status Tracking**: Track task progress (Todo, In Progress, Completed, Cancelled)
-- **Priority Levels**: Set task priorities (Low, Medium, High)
-- **Due Dates**: Set and track task deadlines
+- `db/` - Database schema, migrations, and connection
+- `routers/` - API route handlers organized by feature
+- `websocket.ts` - Real-time WebSocket server
 
-### 📅 Event Calendar
+**Root:**
 
-- **Calendar Views**: Month, week, and day views for events
-- **Drag & Drop**: Intuitive event scheduling with drag-and-drop
-- **Event Types**: Support for meetings, deadlines, and custom events
-- **Deadline Integration**: Automatic display of project and task deadlines
+- `package.json` - Workspace configuration and shared scripts
+- `turbo.json` - Build system configuration
+- `init-scripts/` - Database setup scripts
 
-### 🔔 Real-time Notifications
+## Features
 
-- **Task Assignments**: Instant notifications when tasks are assigned
-- **Project Updates**: Real-time updates for project changes
-- **WebSocket Integration**: Live updates across all connected clients
-- **Notification Center**: Centralized notification management
+### Project Management
 
-## 🔧 Available Scripts
+Create projects with descriptions, deadlines, and team members. Set priorities and track progress with visual indicators.
 
-### Development
+### Task Assignment
+
+Assign tasks to team members with due dates and status tracking. Get real-time notifications when tasks are assigned to you.
+
+### Calendar View
+
+See all your deadlines and events in a clean calendar interface. Drag and drop to reschedule events.
+
+### Real-time Updates
+
+Stay connected with WebSocket-powered live updates. See connection status in the navbar.
+
+## Development
+
+### Available Commands
 
 ```bash
-bun dev              # Start all applications in development mode
-bun dev:web          # Start only the web application
-bun dev:server       # Start only the server
-```
-
-### Building
-
-```bash
-bun build            # Build all applications for production
-bun build:web        # Build only the web application
-bun build:server     # Build only the server
+bun dev              # Start everything
+bun dev:web          # Frontend only
+bun dev:server       # Backend only
+bun build            # Build for production
+bun db:push          # Update database schema
+bun db:studio        # Open database GUI
 ```
 
 ### Database
 
-```bash
-bun db:push          # Push schema changes to database
-bun db:studio        # Open Drizzle Studio (database GUI)
-bun db:generate      # Generate database migrations
-```
+The app uses PostgreSQL with Drizzle ORM. Main tables:
 
-### Code Quality
+- `users` - User accounts
+- `projects` - Project data
+- `tasks` - Task assignments
+- `project_members` - Team memberships
+- `events` - Calendar events
 
-```bash
-bun check-types      # Check TypeScript types across all apps
-bun lint             # Run ESLint on all applications
-bun format           # Format code with Prettier
-```
+### API Routes
 
-### PWA
+**Projects:**
 
-```bash
-cd apps/web && bun generate-pwa-assets  # Generate PWA assets
-```
-
-## 🌐 API Documentation
-
-### Authentication Endpoints
-
-- `POST /api/auth/signin` - User sign in
-- `POST /api/auth/signup` - User registration
-- `POST /api/auth/signout` - User sign out
-
-### Project Endpoints
-
-- `GET /api/projects` - Get all projects for user
-- `POST /api/projects` - Create new project
-- `GET /api/projects/:id` - Get project by ID
+- `GET /api/projects` - List user's projects
+- `POST /api/projects` - Create project
 - `PUT /api/projects/:id` - Update project
 - `DELETE /api/projects/:id` - Delete project
 
-### Task Endpoints
+**Tasks:**
 
-- `GET /api/tasks` - Get all tasks for user
-- `POST /api/tasks` - Create new task
-- `GET /api/tasks/:id` - Get task by ID
+- `GET /api/tasks` - List user's tasks
+- `POST /api/tasks` - Create task
 - `PUT /api/tasks/:id` - Update task
 - `DELETE /api/tasks/:id` - Delete task
 
-### Event Endpoints
+**Events:**
 
-- `GET /api/events` - Get all events
-- `POST /api/events` - Create new event
+- `GET /api/events` - List events
+- `POST /api/events` - Create event
 - `PUT /api/events/:id` - Update event
 - `DELETE /api/events/:id` - Delete event
 
-## 🔔 Real-time Notifications
+## Real-time Notifications
 
-### WebSocket Connection
+When someone assigns a task to you, you'll get an instant notification in your navbar. The system uses WebSocket connections to deliver notifications in real-time.
 
-The application uses WebSocket for real-time communication:
+**How it works:**
 
-- **Connection URL**: `ws://localhost:3001`
-- **Authentication**: JWT token-based authentication
-- **Auto-reconnection**: Automatic reconnection on connection loss
+1. Task gets assigned to a user
+2. Server sends notification via WebSocket
+3. User sees notification immediately
+4. Only the assigned user gets the notification
 
-### Notification Types
+## Authentication
 
-- **Task Assignment**: Notified when assigned to a new task
-- **Task Reassignment**: Notified when task assignment changes
-- **Project Updates**: Notified of project changes
-- **Event Reminders**: Notified of upcoming events
+Uses NextAuth.js with JWT tokens. Users can sign up, sign in, and maintain sessions across browser refreshes.
 
-### Connection Status
+## UI Components
 
-- **Green WiFi Icon**: Connected to real-time updates
-- **Red WiFi Icon**: Disconnected (auto-reconnecting)
-- **Connection Indicator**: Shows in the top navigation bar
+Built with shadcn/ui for consistent, accessible components. Includes forms, navigation, modals, and data display components.
 
-## 🎨 UI Components
+## Environment Variables
 
-### Component Library
-
-Built with [shadcn/ui](https://ui.shadcn.com/) for consistent, accessible components:
-
-- **Forms**: Input, Select, Textarea, DatePicker
-- **Navigation**: DropdownMenu, Breadcrumb, Sidebar
-- **Feedback**: Toast, Alert, Notification
-- **Layout**: Card, Sheet, Dialog, Modal
-- **Data Display**: Table, Badge, Avatar
-
-### Theme System
-
-- **Light/Dark Mode**: Toggle between themes
-- **System Preference**: Automatically follows OS theme
-- **Customizable**: Easy to extend with custom themes
-
-## 🔐 Authentication
-
-### Authentication Flow
-
-1. **Registration**: Users create accounts with email and password
-2. **Sign In**: JWT-based authentication with secure tokens
-3. **Session Management**: Persistent sessions with automatic refresh
-4. **Role-based Access**: Different permissions for different user roles
-
-### Security Features
-
-- **JWT Tokens**: Secure authentication tokens
-- **Password Hashing**: Bcrypt password hashing
-- **CSRF Protection**: Cross-site request forgery protection
-- **Input Validation**: Comprehensive input validation and sanitization
-
-## 📊 Database Schema
-
-### Core Tables
-
-#### Users
-
-```sql
-users (
-  id UUID PRIMARY KEY,
-  email VARCHAR UNIQUE NOT NULL,
-  first_name VARCHAR,
-  last_name VARCHAR,
-  image VARCHAR,
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP
-)
-```
-
-#### Projects
-
-```sql
-projects (
-  id UUID PRIMARY KEY,
-  name VARCHAR NOT NULL,
-  description TEXT,
-  priority VARCHAR,
-  status VARCHAR,
-  deadline TIMESTAMP,
-  project_manager_id UUID REFERENCES users(id),
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP
-)
-```
-
-#### Tasks
-
-```sql
-tasks (
-  id UUID PRIMARY KEY,
-  title VARCHAR NOT NULL,
-  description TEXT,
-  status VARCHAR,
-  priority VARCHAR,
-  deadline TIMESTAMP,
-  project_id UUID REFERENCES projects(id),
-  assignee_id UUID REFERENCES users(id),
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP
-)
-```
-
-## 🚀 Deployment
-
-### Production Build
-
-```bash
-bun build
-```
-
-### Environment Variables
-
-Set the following environment variables for production:
+**Server (.env):**
 
 ```env
-DATABASE_URL="your-production-database-url"
-JWT_SECRET="your-production-jwt-secret"
-NEXTAUTH_SECRET="your-production-nextauth-secret"
-NEXTAUTH_URL="https://your-domain.com"
+DATABASE_URL="postgresql://user:pass@localhost:5432/synergysphere"
+JWT_SECRET="your-jwt-secret"
+NEXTAUTH_SECRET="your-nextauth-secret"
+NEXTAUTH_URL="http://localhost:3001"
 ```
 
-### Docker Deployment
+## Deployment
 
-```dockerfile
-# Example Dockerfile for production deployment
-FROM node:18-alpine
-WORKDIR /app
-COPY package.json .
-RUN bun install --production
-COPY . .
-RUN bun build
-EXPOSE 3000
-CMD ["bun", "start"]
-```
+1. Build the project: `bun build`
+2. Set production environment variables
+3. Deploy to your preferred platform (Vercel, Railway, etc.)
 
-## 🤝 Contributing
+## Contributing
 
-We welcome contributions! Please follow these steps:
+1. Fork the repo
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
-1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
-3. **Commit your changes**: `git commit -m 'Add amazing feature'`
-4. **Push to the branch**: `git push origin feature/amazing-feature`
-5. **Open a Pull Request**
+## License
 
-### Development Guidelines
-
-- Follow TypeScript best practices
-- Write meaningful commit messages
-- Add tests for new features
-- Update documentation as needed
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [Next.js](https://nextjs.org/) for the amazing React framework
-- [shadcn/ui](https://ui.shadcn.com/) for the beautiful component library
-- [TailwindCSS](https://tailwindcss.com/) for the utility-first CSS
-- [Drizzle](https://orm.drizzle.team/) for the TypeScript ORM
-- [Hono](https://hono.dev/) for the lightweight web framework
+MIT License - feel free to use this project for your own needs.
 
 ---
 
-**Built with ❤️ by the SynergySphere Team**
-
-For support or questions, please open an issue on GitHub or contact us at <support@synergysphere.com>.
+Built with modern web technologies for modern teams.
